@@ -40,6 +40,6 @@ top_owners_outside_duval = top_owners_outside_duval.sort_values(by='Count', asce
 
 # Output the results
 print(f"Total sales in 2023: {total_sales_2023}")
-print(f"Total sales to people outside Duval ZIP code: {total_sales_outside_duval}")
-print("\nTop 15 people by count (outside Duval ZIP codes):")
+print(f"Total sales to owners outside Duval ZIP code: {total_sales_outside_duval}")
+print("\nTop 15 owners by count (outside Duval ZIP codes):")
 print(top_owners_outside_duval)
