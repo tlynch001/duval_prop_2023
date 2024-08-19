@@ -5,7 +5,7 @@ import os
 user_home_dir = os.environ['USERPROFILE']
 
 # Construct the file path using the user's home directory
-file_path = os.path.join(user_home_dir, 'Downloads', 'Duval 26 Final NAL 2023', 'NAL26F202301.csv')
+file_path = os.path.join(user_home_dir, 'Downloads', 'Duval 26 Preliminary NAL 2024', 'NAL26P202401.csv')
 
 # Load the CSV file
 data = pd.read_csv(file_path)
@@ -24,8 +24,12 @@ duval_zip_codes = [
     '32235', '32238', '32240', '32239', '32241', '32245', '32247', '32255'
 ]
 
-# Filter records with SALE_YR1 as 2023 and ACT_YR_BLT < 2022
-sales_2023_data = data[(data['SALE_YR1'] == 2023) & (data['ACT_YR_BLT'] < 2022)]
+# Filter records with SALE_YR1 as 2023, ACT_YR_BLT < 2022, and ATV_STRT in [1, 2]
+sales_2023_data = data[
+    (data['SALE_YR1'] == 2023) &
+    (data['ACT_YR_BLT'] < 2022) &
+    (data['ATV_STRT'].isin([1, 2]))
+]
 
 # Filter the records for those outside the Duval ZIP codes
 sales_outside_duval = sales_2023_data[~sales_2023_data['OWN_ZIPCD'].isin(duval_zip_codes)]
