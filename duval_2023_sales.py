@@ -5,7 +5,7 @@ import os
 user_home_dir = os.environ['USERPROFILE']
 
 # Construct the file path using the user's home directory
-file_path = os.path.join(user_home_dir, 'Downloads', 'Duval 26 Preliminary NAL 2024', 'NAL26P202401.csv')
+file_path = os.path.join(user_home_dir, 'Downloads', 'Duval 26 Final NAL 2023', 'NAL26F202301.csv')
 
 # Load the CSV file
 data = pd.read_csv(file_path)
@@ -24,8 +24,8 @@ duval_zip_codes = [
     '32235', '32238', '32240', '32239', '32241', '32245', '32247', '32255'
 ]
 
-# Filter records with SALE_YR1 as 2023
-sales_2023_data = data[data['SALE_YR1'] == 2023]
+# Filter records with SALE_YR1 as 2023 and ACT_YR_BLT < 2022
+sales_2023_data = data[(data['SALE_YR1'] == 2023) & (data['ACT_YR_BLT'] < 2022)]
 
 # Filter the records for those outside the Duval ZIP codes
 sales_outside_duval = sales_2023_data[~sales_2023_data['OWN_ZIPCD'].isin(duval_zip_codes)]
@@ -35,7 +35,7 @@ total_sales_2023 = sales_2023_data.shape[0]
 total_sales_outside_duval = sales_outside_duval.shape[0]
 
 # Get the top 15 owners by count outside Duval ZIP codes
-top_owners_outside_duval = sales_outside_duval.groupby(['OWN_NAME', 'OWN_CITY', 'OWN_STATE']).size().reset_index(name='Count')
+top_owners_outside_duval = sales_outside_duval.groupby(['OWN_NAME', 'OWN_STATE']).size().reset_index(name='Count')
 top_owners_outside_duval = top_owners_outside_duval.sort_values(by='Count', ascending=False).head(15)
 
 # Output the results
